@@ -1,0 +1,79 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="USER_TABLE_1" author="krivonos-al@mail.ru">
+        <createTable tableName="t_user">
+            <column autoIncrement="true" name="id" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="BUSINESS_CARD_TABLE_1" author="krivonos-al@mail.ru">
+        <createTable tableName="t_business_card">
+            <column autoIncrement="true" name="id" type="BIGINT UNSIGNED">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="working_telephone" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT UNSIGNED">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="t_business_card"
+                                 baseColumnNames="user_id"
+                                 constraintName="user_id"
+                                 referencedTableName="t_user"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="USER_INSERT_1" author="krivonos-al@mail.ru">
+        <insert tableName="t_user">
+            <column name="username" value="admin@admin.com"/>
+            <column name="password" value="$2a$09$QQLe6OdlVTNL2o7Q8LJx3OpxVeiLjcLzBcE/EB70zwaw0l.uZdXIm"/>
+            <column name="role" value="ADMINISTRATOR"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="USER_INSERT_2" author="krivonos-al@mail.ru">
+        <insert tableName="t_user">
+            <column name="username" value="customer@customer.com"/>
+            <column name="password" value="$2a$09$QQLe6OdlVTNL2o7Q8LJx3OpxVeiLjcLzBcE/EB70zwaw0l.uZdXIm"/>
+            <column name="role" value="CUSTOMER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="BUSINESS_CARD_INSERT_1" author="krivonos-al@mail.ru">
+        <insert tableName="t_business_card">
+            <column name="title" value="Some title"/>
+            <column name="full_name" value="Alexei"/>
+            <column name="working_telephone" value="375447337351"/>
+            <column name="user_id" valueComputed="(SELECT id FROM t_user WHERE username = 'customer@customer.com')"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
