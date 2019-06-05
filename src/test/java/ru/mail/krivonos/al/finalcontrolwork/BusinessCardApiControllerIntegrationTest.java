@@ -38,7 +38,7 @@ public class BusinessCardApiControllerIntegrationTest {
         businessCard.setWorkingTelephone("+375447117187");
         businessCard.setFullName("Alexei");
         UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("admin@admin.com");
+        userDTO.setUsername("customer@customer.com");
         businessCard.setUser(userDTO);
         restTemplate.withBasicAuth("admin@admin.com", "admin");
         BusinessCardDTO admins = restTemplate
@@ -49,9 +49,9 @@ public class BusinessCardApiControllerIntegrationTest {
 
     @Test
     public void shouldDeleteBusinessCard() {
-        restTemplate.withBasicAuth("api@api.com", "admin");
+        restTemplate.withBasicAuth("admin@admin.com", "admin");
         restTemplate
-                .withBasicAuth("api@api.com", "admin")
+                .withBasicAuth("admin@admin.com", "admin")
                 .delete("http://localhost:8080/api/v1/admin/cards/1", ResponseEntity.class);
     }
 }

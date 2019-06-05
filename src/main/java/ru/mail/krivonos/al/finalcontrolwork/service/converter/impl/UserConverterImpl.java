@@ -14,6 +14,7 @@ public class UserConverterImpl implements UserConverter {
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
         userDTO.setPassword(user.getPassword());
+        userDTO.setRole(user.getRole());
         return userDTO;
     }
 }
